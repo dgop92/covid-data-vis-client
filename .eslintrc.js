@@ -44,7 +44,6 @@ module.exports = {
     "react/function-component-definition": 0,
     "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
 
-    "linebreak-style": ["error", "unix"],
     quotes: ["error", "double", { avoidEscape: true }],
     semi: ["error", "always"],
     "max-len": [
