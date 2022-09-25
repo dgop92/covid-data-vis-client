@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import { RepositoryContext } from "../services/context/covid.repository.contex";
+import { RepositoryContext } from "./context/covid.repository.contex";
 import { CovidMockRepository } from "../services/repository/covid-mock.repository";
 import { muiTheme } from "../styles/theme";
 

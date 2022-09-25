@@ -29,6 +29,7 @@ module.exports = {
       extends: ["plugin:@typescript-eslint/recommended"],
       rules: {
         "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-explicit-any": 0,
       },
 
       parserOptions: {
@@ -46,12 +47,7 @@ module.exports = {
 
     quotes: ["error", "double", { avoidEscape: true }],
     semi: ["error", "always"],
-    "max-len": [
-      2,
-      {
-        code: 88,
-      },
-    ],
+    "max-len": 0,
 
     "import/prefer-default-export": 0,
     "no-unused-vars": "warn",

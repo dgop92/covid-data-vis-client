@@ -1,26 +1,52 @@
-import { Typography, Stack } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 import { useEffect, useState, useCallback } from "react";
 import ReactApexChart from "react-apexcharts";
-import { useRepo } from "../../services/context/covid.repository.contex";
-import { zipTwoArrs } from "../../utils/helpers";
-import { sectionChart1Options } from "./chart.options";
+import { CountrySelect } from "../../components/CountrySelect";
+import { Country, DEFAULT_COUNTRY } from "../../components/CountrySelect/countries";
+import { Select } from "../../components/Select";
+import { useRepo } from "../../providers/context/covid.repository.contex";
+import { covidBasicSerieToApexChartSeries } from "../../services/transformers/repo-apexcharts";
+import { COVID_SEMESTERS, getSectionChart1Options } from "./options";
+
+function getMinDate(series: ApexAxisChartSeries) {
+  if (series.length !== 0) {
+    const firstSerieData = series[0].data as [number, number | null][];
+    return new Date(firstSerieData[0][0]);
+  }
+  return null;
+}
 
 export default function Section1() {
-  const [seriesState, setSeriesState] = useState<[number, number][]>([]);
+  const [seriesState, setSeriesState] = useState<ApexAxisChartSeries>([]);
+  const [currentCountry, setCurrentCountry] = useState<Country>(DEFAULT_COUNTRY);
+  const [currentSemester, setCurrentSemester] = useState<string>(
+    COVID_SEMESTERS[1].value as string
+  );
+
   const { repository } = useRepo();
 
   const getData = useCallback(async () => {
     console.log("getData");
-    const data = await repository.getBasicSerieByCountry("COL");
-    const { cases, dates } = data;
-    const datesAsUnixTimeStamp = dates.map((date) => new Date(date).getTime());
-    const series = zipTwoArrs(datesAsUnixTimeStamp, cases);
+    const data = await repository.getBasicSerieByCountry(
+      currentCountry.isoCode,
+      currentSemester
+    );
+    const series = covidBasicSerieToApexChartSeries(data);
     setSeriesState(series);
-  }, [repository]);
+  }, [currentCountry.isoCode, currentSemester, repository]);
+
+  const onCountryChange = (country: Country) => {
+    setCurrentCountry(country);
+  };
 
   useEffect(() => {
     getData();
   }, [getData]);
+
+  const chartOptions = getSectionChart1Options(
+    getMinDate(seriesState),
+    currentCountry.label
+  );
 
   return (
     <Stack
@@ -43,7 +69,6 @@ export default function Section1() {
           variant="body1"
           sx={{
             p: 1,
-            mb: 4,
           }}
         >
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit illum totam
@@ -53,11 +78,19 @@ export default function Section1() {
           autem reiciendis officia molestias excepturi rem natus quidem?
         </Typography>
       </Stack>
-      <ReactApexChart
-        options={sectionChart1Options}
-        series={[{ name: "cases", data: seriesState }]}
-        height={350}
-      />
+      <Box my={4}>
+        <ReactApexChart options={chartOptions} series={seriesState} height={400} />
+      </Box>
+      <Stack direction="row" gap={5}>
+        <CountrySelect onCountryChange={onCountryChange} id="section1" />
+        <Select
+          name="period"
+          label="Period"
+          items={COVID_SEMESTERS}
+          value={currentSemester}
+          onChange={(e) => setCurrentSemester(e.target.value)}
+        />
+      </Stack>
     </Stack>
   );
 }

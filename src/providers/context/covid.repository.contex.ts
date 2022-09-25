@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { ICovidRepository } from "../repository/covid.repository.definition";
+import { ICovidRepository } from "../../services/repository/covid.repository.definition";
 
 type RepositoryContextType = {
   repository: ICovidRepository;

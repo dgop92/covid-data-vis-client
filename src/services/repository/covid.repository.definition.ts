@@ -5,5 +5,5 @@ export type CovidBasicSerie = {
 };
 
 export interface ICovidRepository {
-  getBasicSerieByCountry(isoCode: string): Promise<CovidBasicSerie>;
+  getBasicSerieByCountry(isoCode: string, semester?: string): Promise<CovidBasicSerie>;
 }
