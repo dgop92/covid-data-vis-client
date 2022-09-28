@@ -1,23 +1,22 @@
-import { Box, Typography, Stack } from "@mui/material";
+import { Typography, Stack, CircularProgress } from "@mui/material";
+import { ApexOptions } from "apexcharts";
 import { useEffect, useState, useCallback } from "react";
 import ReactApexChart from "react-apexcharts";
 import { CountrySelect } from "../../components/CountrySelect";
 import { Country, DEFAULT_COUNTRY } from "../../components/CountrySelect/countries";
 import { Select } from "../../components/Select";
 import { useRepo } from "../../providers/context/covid.repository.contex";
-import { covidBasicSerieToApexChartSeries } from "../../services/transformers/repo-apexcharts";
-import { COVID_SEMESTERS, getSectionChart1Options } from "./options";
-
-function getMinDate(series: ApexAxisChartSeries) {
-  if (series.length !== 0) {
-    const firstSerieData = series[0].data as [number, number | null][];
-    return new Date(firstSerieData[0][0]);
-  }
-  return null;
-}
+import { getSection1ChartData } from "./apexOptions";
+import { COVID_SEMESTERS } from "./options";
 
 export default function Section1() {
-  const [seriesState, setSeriesState] = useState<ApexAxisChartSeries>([]);
+  const [chartState, setChartState] = useState<
+    | {
+        options: ApexOptions;
+        series: ApexAxisChartSeries;
+      }
+    | undefined
+  >(undefined);
   const [currentCountry, setCurrentCountry] = useState<Country>(DEFAULT_COUNTRY);
   const [currentSemester, setCurrentSemester] = useState<string>(
     COVID_SEMESTERS[1].value as string
@@ -31,9 +30,9 @@ export default function Section1() {
       currentCountry.isoCode,
       currentSemester
     );
-    const series = covidBasicSerieToApexChartSeries(data);
-    setSeriesState(series);
-  }, [currentCountry.isoCode, currentSemester, repository]);
+    const optionSeries = getSection1ChartData(data, currentCountry.label);
+    setChartState(optionSeries);
+  }, [currentCountry, currentSemester, repository]);
 
   const onCountryChange = (country: Country) => {
     setCurrentCountry(country);
@@ -42,11 +41,6 @@ export default function Section1() {
   useEffect(() => {
     getData();
   }, [getData]);
-
-  const chartOptions = getSectionChart1Options(
-    getMinDate(seriesState),
-    currentCountry.label
-  );
 
   return (
     <Stack
@@ -63,7 +57,7 @@ export default function Section1() {
             p: 1,
           }}
         >
-          1. Positive Cases, Deaths and recoverd
+          1. Positive cases and deaths
         </Typography>
         <Typography
           variant="body1"
@@ -78,9 +72,17 @@ export default function Section1() {
           autem reiciendis officia molestias excepturi rem natus quidem?
         </Typography>
       </Stack>
-      <Box my={4}>
-        <ReactApexChart options={chartOptions} series={seriesState} height={400} />
-      </Box>
+      <Stack my={4} display="flex">
+        {chartState ? (
+          <ReactApexChart
+            options={chartState.options}
+            series={chartState.series}
+            height={400}
+          />
+        ) : (
+          <CircularProgress />
+        )}
+      </Stack>
       <Stack direction="row" gap={5}>
         <CountrySelect onCountryChange={onCountryChange} id="section1" />
         <Select

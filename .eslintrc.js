@@ -30,6 +30,7 @@ module.exports = {
       rules: {
         "@typescript-eslint/explicit-module-boundary-types": 0,
         "@typescript-eslint/no-explicit-any": 0,
+        "no-useless-constructor": 0,
       },
 
       parserOptions: {
@@ -57,6 +58,7 @@ module.exports = {
     "object-shorthand": "off",
     "class-methods-use-this": "off",
     "object-curly-newline": "off",
+    camelcase: 0,
 
     "import/extensions": [
       "error",
