@@ -12,8 +12,10 @@ import { COVID_SEMESTERS } from "./options";
 export default function Section1() {
   const [chartState, setChartState] = useState<
     | {
-        options: ApexOptions;
-        series: ApexAxisChartSeries;
+        options1: ApexOptions;
+        series1: ApexAxisChartSeries;
+        options2: ApexOptions;
+        series2: ApexAxisChartSeries;
       }
     | undefined
   >(undefined);
@@ -26,6 +28,7 @@ export default function Section1() {
 
   const getData = useCallback(async () => {
     console.log("getData");
+    setChartState(undefined);
     const data = await repository.getBasicSerieByCountry(
       currentCountry.isoCode,
       currentSemester
@@ -72,15 +75,22 @@ export default function Section1() {
           autem reiciendis officia molestias excepturi rem natus quidem?
         </Typography>
       </Stack>
-      <Stack my={4} display="flex">
+      <Stack my={4} display="flex" height={700} width="100%">
         {chartState ? (
-          <ReactApexChart
-            options={chartState.options}
-            series={chartState.series}
-            height={400}
-          />
+          <>
+            <ReactApexChart
+              options={chartState.options1}
+              series={chartState.series1}
+              height="50%"
+            />
+            <ReactApexChart
+              options={chartState.options2}
+              series={chartState.series2}
+              height="50%"
+            />
+          </>
         ) : (
-          <CircularProgress />
+          <CircularProgress sx={{ margin: "auto" }} />
         )}
       </Stack>
       <Stack direction="row" gap={5}>
