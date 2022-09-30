@@ -1,4 +1,8 @@
-import { CovidBasicSerie, ICovidRepository } from "./covid.repository.definition";
+import {
+  CountryBasicInfo,
+  CovidBasicSerie,
+  ICovidRepository,
+} from "./covid.repository.definition";
 
 export class CovidMockRepository implements ICovidRepository {
   getBasicSerieByCountry(isoCode: string, semester?: string): Promise<CovidBasicSerie> {
@@ -8,5 +12,9 @@ export class CovidMockRepository implements ICovidRepository {
       cases: Array.from({ length: 1000 }, () => Math.floor(Math.random() * 1000)),
       deaths: Array.from({ length: 1000 }, () => Math.floor(Math.random() * 100)),
     });
+  }
+
+  getCountriesBasicInfo(): Promise<CountryBasicInfo[]> {
+    throw new Error("Method not implemented.");
   }
 }

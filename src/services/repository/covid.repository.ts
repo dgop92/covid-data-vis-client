@@ -1,5 +1,10 @@
 import { AxiosInstance } from "axios";
-import { CovidBasicSerie, ICovidRepository } from "./covid.repository.definition";
+import { CamelCaseToSnakeCaseNested } from "../../utils/types";
+import {
+  CountryBasicInfo,
+  CovidBasicSerie,
+  ICovidRepository,
+} from "./covid.repository.definition";
 
 function getStartAndEndDate(covidSemester: string): {
   startDate?: string;
@@ -64,5 +69,17 @@ export class CovidRepository implements ICovidRepository {
       cases: response.data.map((item) => item.new_cases),
       deaths: response.data.map((item) => item.new_deaths),
     };
+  }
+
+  async getCountriesBasicInfo(): Promise<CountryBasicInfo[]> {
+    const response = await this.client.get<
+      CamelCaseToSnakeCaseNested<CountryBasicInfo>[]
+    >("/total-cases-population?remove_outliers=True");
+    return response.data.map((item) => ({
+      isoCode: item.iso_code,
+      totalCases: item.total_cases,
+      populationDensity: item.population_density,
+      population: item.population,
+    }));
   }
 }
