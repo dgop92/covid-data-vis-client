@@ -2,10 +2,13 @@ import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { Typography, Stack, CircularProgress } from "@mui/material";
 import { useEffect, useCallback, useState } from "react";
+import { useTrackVisibility } from "react-intersection-observer-hook";
 import { useRepo } from "../../providers/context/covid.repository.contex";
 import { getSection2ChartData } from "./apexOptions";
 
 export default function Section2() {
+  const [ref, { wasEverVisible }] = useTrackVisibility();
+
   const [chartState, setChartState] = useState<
     | {
         options: ApexOptions;
@@ -17,11 +20,16 @@ export default function Section2() {
   const { repository } = useRepo();
 
   const getData = useCallback(async () => {
-    console.log("getData");
-    const data = await repository.getCountriesBasicInfo();
-    const optionSeries = getSection2ChartData(data, "Total Cases Vs Population");
-    setChartState(optionSeries);
-  }, [repository]);
+    if (wasEverVisible) {
+      console.log("getData");
+      const data = await repository.getCountriesBasicInfo({ removeOutliers: true });
+      const optionSeries = getSection2ChartData(
+        data,
+        "Total Cases Vs Population Density"
+      );
+      setChartState(optionSeries);
+    }
+  }, [repository, wasEverVisible]);
 
   useEffect(() => {
     getData();
@@ -33,6 +41,7 @@ export default function Section2() {
       sx={{
         display: "flex",
       }}
+      ref={ref}
     >
       <Stack>
         <Typography

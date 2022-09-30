@@ -5,16 +5,24 @@ export const getSection2ChartData = (
   countriesBasicInfo: CountryBasicInfo[],
   title: string
 ) => {
-  const seriesData: Array<[number, number]> = countriesBasicInfo.map((country) => [
-    country.totalCases,
-    country.populationDensity,
-  ]);
+  const seriesData: Array<[number, number] | null> = countriesBasicInfo.map(
+    (country) => {
+      if (country.populationDensity && country.totalCases) {
+        return [country.populationDensity, country.totalCases];
+      }
+      return null;
+    }
+  );
+  const seriesDataNoNulls = seriesData.filter(
+    (item): item is [number, number] => item !== null
+  );
 
   const series = [
     {
-      data: seriesData,
+      data: seriesDataNoNulls,
     },
   ];
+
   const options: ApexOptions = {
     chart: {
       width: "100%",
@@ -77,6 +85,9 @@ export const getSection2ChartData = (
         formatter: (value: string) =>
           Intl.NumberFormat("en", { notation: "compact" }).format(Number(value)),
       },
+    },
+    tooltip: {
+      enabled: false,
     },
     theme: {
       mode: "dark",

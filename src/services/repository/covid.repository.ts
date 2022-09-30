@@ -2,6 +2,7 @@ import { AxiosInstance } from "axios";
 import { CamelCaseToSnakeCaseNested } from "../../utils/types";
 import {
   CountryBasicInfo,
+  CountryBasicInfoOptions,
   CovidBasicSerie,
   ICovidRepository,
 } from "./covid.repository.definition";
@@ -71,15 +72,33 @@ export class CovidRepository implements ICovidRepository {
     };
   }
 
-  async getCountriesBasicInfo(): Promise<CountryBasicInfo[]> {
+  async getCountriesBasicInfo(
+    options?: CountryBasicInfoOptions
+  ): Promise<CountryBasicInfo[]> {
+    const urlSearchParams = new URLSearchParams();
+    if (options?.startDate) {
+      urlSearchParams.set("start", options.startDate);
+    }
+    if (options?.endDate) {
+      urlSearchParams.set("end", options.endDate);
+    }
+    if (options?.removeOutliers) {
+      urlSearchParams.set("remove_outliers", options.removeOutliers.toString());
+    }
+    const queryString = urlSearchParams.toString();
+
     const response = await this.client.get<
       CamelCaseToSnakeCaseNested<CountryBasicInfo>[]
-    >("/total-cases-population?remove_outliers=True");
+    >(`/countries-basic-info?${queryString}`);
+
     return response.data.map((item) => ({
       isoCode: item.iso_code,
       totalCases: item.total_cases,
       populationDensity: item.population_density,
       population: item.population,
+      gdpPerCapita: item.gdp_per_capita,
+      lifeExpectancy: item.life_expectancy,
+      humanDevelopmentIndex: item.human_development_index,
     }));
   }
 }
