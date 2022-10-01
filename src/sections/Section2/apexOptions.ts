@@ -81,6 +81,24 @@ export const getSection2ChartData = (
     theme: {
       ...commonThemeOptions,
     },
+    responsive: [
+      {
+        breakpoint: 900,
+        options: {
+          xaxis: {
+            tickAmount: 10,
+          },
+        },
+      },
+      {
+        breakpoint: 500,
+        options: {
+          xaxis: {
+            tickAmount: 6,
+          },
+        },
+      },
+    ],
   };
   return { options, series };
 };

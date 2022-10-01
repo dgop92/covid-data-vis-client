@@ -86,7 +86,7 @@ export default function Section3() {
           )}
         </Stack>
       </Stack>
-      <Stack direction="row" gap={5}>
+      <Stack direction="row" gap={5} justifyContent="center" flexWrap="wrap">
         <Select
           name="year"
           label="Year"

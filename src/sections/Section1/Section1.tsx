@@ -93,7 +93,7 @@ export default function Section1() {
           <CircularProgress sx={{ margin: "auto" }} />
         )}
       </Stack>
-      <Stack direction="row" gap={5}>
+      <Stack direction="row" gap={5} justifyContent="center" flexWrap="wrap">
         <CountrySelect onCountryChange={onCountryChange} id="section1" />
         <Select
           name="period"

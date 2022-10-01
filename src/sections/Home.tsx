@@ -20,7 +20,7 @@ export function Header() {
           fontFamily: "titleFontFamily",
           fontWeight: 700,
           color: "text.primary",
-          fontSize: 56,
+          fontSize: { md: 56, xs: 48 },
           padding: 1,
           zIndex: 2,
           alignSelf: "center",
