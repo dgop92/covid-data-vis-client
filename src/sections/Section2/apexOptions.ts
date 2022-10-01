@@ -1,5 +1,10 @@
 import { ApexOptions } from "apexcharts";
 import { CountryBasicInfo } from "../../services/repository/covid.repository.definition";
+import {
+  commonChartOptions,
+  commonThemeOptions,
+  commonTitleOptions,
+} from "../../utils/commonApexOptions";
 
 export const getSection2ChartData = (
   countriesBasicInfo: CountryBasicInfo[],
@@ -25,10 +30,7 @@ export const getSection2ChartData = (
 
   const options: ApexOptions = {
     chart: {
-      width: "100%",
-      background: "#2e2d2d",
-      type: "area",
-      fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
+      ...commonChartOptions,
       zoom: {
         enabled: true,
       },
@@ -61,22 +63,9 @@ export const getSection2ChartData = (
         left: 20,
       },
     },
-    legend: {
-      fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
-      offsetY: -15,
-      itemMargin: {
-        horizontal: 10,
-      },
-    },
     title: {
       text: title,
-      offsetY: 15,
-      align: "center",
-      style: {
-        fontSize: "20px",
-        fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
-        color: "#fff",
-      },
+      ...commonTitleOptions,
     },
     xaxis: {
       tickAmount: 20,
@@ -90,7 +79,7 @@ export const getSection2ChartData = (
       enabled: false,
     },
     theme: {
-      mode: "dark",
+      ...commonThemeOptions,
     },
   };
   return { options, series };

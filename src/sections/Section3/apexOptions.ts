@@ -1,5 +1,6 @@
 import { ApexOptions } from "apexcharts";
 import { CountryBasicInfo } from "../../services/repository/covid.repository.definition";
+import { commonChartOptions, commonThemeOptions } from "../../utils/commonApexOptions";
 import { getCountryNameByIsoCode } from "../../utils/countries";
 
 export const getSection3ChartData = (countriesBasicInfo: CountryBasicInfo[]) => {
@@ -17,10 +18,7 @@ export const getSection3ChartData = (countriesBasicInfo: CountryBasicInfo[]) => 
 
   const options: ApexOptions = {
     chart: {
-      width: "100%",
-      background: "#2e2d2d",
-      type: "bar",
-      fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
+      ...commonChartOptions,
       zoom: {
         enabled: false,
       },
@@ -51,7 +49,7 @@ export const getSection3ChartData = (countriesBasicInfo: CountryBasicInfo[]) => 
       ),
     },
     theme: {
-      mode: "dark",
+      ...commonThemeOptions,
     },
   };
   return { options, series };

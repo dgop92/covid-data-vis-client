@@ -1,5 +1,10 @@
 import { ApexOptions } from "apexcharts";
 import { CovidBasicSerie } from "../../services/repository/covid.repository.definition";
+import {
+  commonChartOptions,
+  commonThemeOptions,
+  commonTitleOptions,
+} from "../../utils/commonApexOptions";
 import { addDays, zipTwoArrs } from "../../utils/helpers";
 
 const getChartOptions = (
@@ -12,10 +17,7 @@ const getChartOptions = (
   gridBottomPadding?: number
 ): ApexOptions => ({
   chart: {
-    width: "100%",
-    background: "#2e2d2d",
-    type: "area",
-    fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
+    ...commonChartOptions,
     zoom: {
       enabled: true,
     },
@@ -59,13 +61,7 @@ const getChartOptions = (
   },
   title: {
     text: title,
-    offsetY: 15,
-    align: "center",
-    style: {
-      fontSize: "20px",
-      fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
-      color: "#fff",
-    },
+    ...commonTitleOptions,
   },
   tooltip: {
     x: {
@@ -86,7 +82,7 @@ const getChartOptions = (
     },
   },
   theme: {
-    mode: "dark",
+    ...commonThemeOptions,
   },
 });
 
