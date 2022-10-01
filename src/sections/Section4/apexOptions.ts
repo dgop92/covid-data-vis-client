@@ -2,9 +2,15 @@ import { ApexOptions } from "apexcharts";
 import { CountryBasicInfo } from "../../services/repository/covid.repository.definition";
 import { getCountryNameByIsoCode } from "../../utils/countries";
 
-export const getSection3ChartData = (countriesBasicInfo: CountryBasicInfo[]) => {
-  const sortedCountriesBasicInfo = countriesBasicInfo.sort(
-    (a, b) => b.totalDeaths - a.totalDeaths
+export const getSection4ChartData = (
+  countriesBasicInfo: CountryBasicInfo[],
+  minPopulation: number
+) => {
+  const filteredCountries = countriesBasicInfo.filter(
+    (country) => country.population && country.population > minPopulation
+  );
+  const sortedCountriesBasicInfo = filteredCountries.sort(
+    (a, b) => a.totalDeaths - b.totalDeaths
   );
   const top5Countries = sortedCountriesBasicInfo.slice(0, 5);
 
@@ -37,6 +43,11 @@ export const getSection3ChartData = (countriesBasicInfo: CountryBasicInfo[]) => 
     dataLabels: {
       enabled: false,
     },
+    xaxis: {
+      categories: top5Countries.map((country) =>
+        getCountryNameByIsoCode(country.isoCode)
+      ),
+    },
     grid: {
       padding: {
         top: 20,
@@ -44,11 +55,6 @@ export const getSection3ChartData = (countriesBasicInfo: CountryBasicInfo[]) => 
         bottom: 40,
         left: 20,
       },
-    },
-    xaxis: {
-      categories: top5Countries.map((country) =>
-        getCountryNameByIsoCode(country.isoCode)
-      ),
     },
     theme: {
       mode: "dark",
