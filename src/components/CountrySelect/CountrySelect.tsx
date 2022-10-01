@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { COUNTRIES, Country } from "./countries";
+import { COUNTRIES, Country } from "../../utils/countries";
 
 export interface CountrySelectProps {
   onCountryChange(country: Country): void;

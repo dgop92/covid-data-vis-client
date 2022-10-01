@@ -7,6 +7,7 @@ export type CovidBasicSerie = {
 export type CountryBasicInfo = {
   isoCode: string;
   totalCases: number;
+  totalDeaths: number;
   populationDensity?: number;
   population?: number;
   gdpPerCapita?: number;

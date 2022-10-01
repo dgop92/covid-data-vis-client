@@ -94,6 +94,7 @@ export class CovidRepository implements ICovidRepository {
     return response.data.map((item) => ({
       isoCode: item.iso_code,
       totalCases: item.total_cases,
+      totalDeaths: item.total_deaths,
       populationDensity: item.population_density,
       population: item.population,
       gdpPerCapita: item.gdp_per_capita,

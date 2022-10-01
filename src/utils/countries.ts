@@ -236,3 +236,8 @@ export const COUNTRIES: Country[] = [
   { isoCode: "ZMB", label: "Zambia" },
   { isoCode: "ZWE", label: "Zimbabwe" },
 ];
+
+export function getCountryNameByIsoCode(isoCode: string) {
+  const country = COUNTRIES.find((c) => c.isoCode === isoCode);
+  return country ? country.label : isoCode;
+}

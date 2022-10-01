@@ -4,11 +4,13 @@ import { Typography, Stack, CircularProgress } from "@mui/material";
 import { useEffect, useCallback, useState } from "react";
 import { useTrackVisibility } from "react-intersection-observer-hook";
 import { useRepo } from "../../providers/context/covid.repository.contex";
-import { getSection2ChartData } from "./apexOptions";
+import { getSection3ChartData } from "./apexOptions";
+import { Select } from "../../components/Select";
+import { COVID_YEARS } from "./options";
 
-export default function Section2() {
+export default function Section3() {
   const [ref, { wasEverVisible }] = useTrackVisibility();
-
+  const [currentYear, setCurrentYear] = useState("2020");
   const [chartState, setChartState] = useState<
     | {
         options: ApexOptions;
@@ -22,14 +24,14 @@ export default function Section2() {
   const getData = useCallback(async () => {
     if (wasEverVisible) {
       console.log("getData");
-      const data = await repository.getCountriesBasicInfo({ removeOutliers: true });
-      const optionSeries = getSection2ChartData(
-        data,
-        "Total Cases Vs Population Density"
-      );
+      const data = await repository.getCountriesBasicInfo({
+        startDate: `${currentYear}-01-01`,
+        endDate: `${currentYear}-12-31`,
+      });
+      const optionSeries = getSection3ChartData(data);
       setChartState(optionSeries);
     }
-  }, [repository, wasEverVisible]);
+  }, [currentYear, repository, wasEverVisible]);
 
   useEffect(() => {
     getData();
@@ -51,8 +53,7 @@ export default function Section2() {
             p: 1,
           }}
         >
-          Is there a positive correlation between population density and the number of
-          cases during 2020?
+          Top 5 countries with more deaths
         </Typography>
         <Typography
           variant="body1"
@@ -78,12 +79,21 @@ export default function Section2() {
               options={chartState.options}
               series={chartState.series}
               height="100%"
-              type="scatter"
+              type="bar"
             />
           ) : (
             <CircularProgress sx={{ margin: "auto" }} />
           )}
         </Stack>
+      </Stack>
+      <Stack direction="row" gap={5}>
+        <Select
+          name="year"
+          label="Year"
+          items={COVID_YEARS}
+          value={currentYear}
+          onChange={(e) => setCurrentYear(e.target.value)}
+        />
       </Stack>
     </Stack>
   );

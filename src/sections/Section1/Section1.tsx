@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 import { useEffect, useState, useCallback } from "react";
 import ReactApexChart from "react-apexcharts";
 import { CountrySelect } from "../../components/CountrySelect";
-import { Country, DEFAULT_COUNTRY } from "../../components/CountrySelect/countries";
+import { Country, DEFAULT_COUNTRY } from "../../utils/countries";
 import { Select } from "../../components/Select";
 import { useRepo } from "../../providers/context/covid.repository.contex";
 import { getSection1ChartData } from "./apexOptions";
