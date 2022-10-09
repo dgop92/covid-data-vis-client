@@ -12,13 +12,8 @@ function getStartAndEndDate(covidSemester: string): {
   endDate?: string;
 } {
   switch (covidSemester) {
-    case "before2020":
+    case "beforeFirstHalf2020":
       return {
-        endDate: "2019-12-31",
-      };
-    case "firstHalf2020":
-      return {
-        startDate: "2020-01-01",
         endDate: "2020-06-30",
       };
     case "secondHalf2020":
@@ -31,14 +26,20 @@ function getStartAndEndDate(covidSemester: string): {
         startDate: "2021-01-01",
         endDate: "2021-06-30",
       };
-    case "secondHalf2021":
+    case "afterSecondHalf2021":
       return {
         startDate: "2021-07-01",
         endDate: "2021-12-31",
       };
-    case "after2021":
+    case "year2020":
       return {
-        startDate: "2022-01-01",
+        startDate: "2020-01-01",
+        endDate: "2020-12-31",
+      };
+    case "year2021":
+      return {
+        startDate: "2021-01-01",
+        endDate: "2021-12-31",
       };
     default:
       return {};
@@ -52,7 +53,7 @@ export class CovidRepository implements ICovidRepository {
     isoCode: string,
     semester?: string | undefined
   ): Promise<CovidBasicSerie> {
-    const startEndDate = getStartAndEndDate(semester || "firstHalf2020");
+    const startEndDate = getStartAndEndDate(semester || "beforeFirstHalf2020");
     const urlSearchParams = new URLSearchParams();
     if (startEndDate.startDate) {
       urlSearchParams.set("start", startEndDate.startDate);
@@ -82,9 +83,6 @@ export class CovidRepository implements ICovidRepository {
     if (options?.endDate) {
       urlSearchParams.set("end", options.endDate);
     }
-    if (options?.removeOutliers) {
-      urlSearchParams.set("remove_outliers", options.removeOutliers.toString());
-    }
     const queryString = urlSearchParams.toString();
 
     const response = await this.client.get<
@@ -93,6 +91,7 @@ export class CovidRepository implements ICovidRepository {
 
     return response.data.map((item) => ({
       isoCode: item.iso_code,
+      continent: item.continent,
       totalCases: item.total_cases,
       totalDeaths: item.total_deaths,
       populationDensity: item.population_density,

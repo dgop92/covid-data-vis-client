@@ -22,11 +22,8 @@ export default function Section2() {
   const getData = useCallback(async () => {
     if (wasEverVisible) {
       console.log("getData");
-      const data = await repository.getCountriesBasicInfo({ removeOutliers: true });
-      const optionSeries = getSection2ChartData(
-        data,
-        "Total Cases Vs Population Density"
-      );
+      const data = await repository.getCountriesBasicInfo();
+      const optionSeries = getSection2ChartData(data, "Total Cases Vs Population");
       setChartState(optionSeries);
     }
   }, [repository, wasEverVisible]);
@@ -51,8 +48,8 @@ export default function Section2() {
             p: 1,
           }}
         >
-          Is there a positive correlation between population density and the number of
-          cases during 2020?
+          Is there a positive correlation between population and the number of cases
+          during 2020?
         </Typography>
         <Typography
           variant="body1"

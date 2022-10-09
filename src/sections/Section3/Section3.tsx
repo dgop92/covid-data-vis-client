@@ -86,7 +86,12 @@ export default function Section3() {
           )}
         </Stack>
       </Stack>
-      <Stack direction="row" gap={5} justifyContent="center" flexWrap="wrap">
+      <Stack
+        direction="row"
+        gap={5}
+        sx={{ justifyContent: { xs: "center", sm: "flex-start" } }}
+        flexWrap="wrap"
+      >
         <Select
           name="year"
           label="Year"

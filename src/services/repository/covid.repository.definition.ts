@@ -6,6 +6,7 @@ export type CovidBasicSerie = {
 
 export type CountryBasicInfo = {
   isoCode: string;
+  continent: string;
   totalCases: number;
   totalDeaths: number;
   populationDensity?: number;
@@ -18,7 +19,6 @@ export type CountryBasicInfo = {
 export type CountryBasicInfoOptions = {
   startDate?: string;
   endDate?: string;
-  removeOutliers?: boolean;
 };
 
 export interface ICovidRepository {

@@ -12,8 +12,8 @@ export const getSection2ChartData = (
 ) => {
   const seriesData: Array<[number, number] | null> = countriesBasicInfo.map(
     (country) => {
-      if (country.populationDensity && country.totalCases) {
-        return [country.populationDensity, country.totalCases];
+      if (country.population && country.totalCases) {
+        return [country.population, country.totalCases];
       }
       return null;
     }
@@ -46,13 +46,6 @@ export const getSection2ChartData = (
           reset: false,
         },
         autoSelected: "pan",
-      },
-      events: {
-        beforeZoom: function (ctx: any) {
-          // we need to clear the range as we only need it on the iniital load.
-          ctx.w.config.xaxis.min = undefined;
-          ctx.w.config.xaxis.max = undefined;
-        },
       },
     },
     grid: {
