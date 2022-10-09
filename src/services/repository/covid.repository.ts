@@ -3,8 +3,10 @@ import { CamelCaseToSnakeCaseNested } from "../../utils/types";
 import {
   CountryBasicInfo,
   CountryBasicInfoOptions,
+  CountryStringencyIndex,
   CovidBasicSerie,
   ICovidRepository,
+  SouthAmericaStringencyIndexOptions,
 } from "./covid.repository.definition";
 
 function getStartAndEndDate(covidSemester: string): {
@@ -63,13 +65,19 @@ export class CovidRepository implements ICovidRepository {
     }
     const queryString = urlSearchParams.toString();
     const response = await this.client.get<
-      { date: string; new_cases: number; new_deaths: number }[]
+      {
+        date: string;
+        new_cases: number;
+        new_deaths: number;
+        stringency_index: number;
+      }[]
     >(`/covid-records/${isoCode}?${queryString}`);
 
     return {
       dates: response.data.map((item) => new Date(item.date)),
       cases: response.data.map((item) => item.new_cases),
       deaths: response.data.map((item) => item.new_deaths),
+      stringencyIndex: response.data.map((item) => item.stringency_index),
     };
   }
 
@@ -99,6 +107,29 @@ export class CovidRepository implements ICovidRepository {
       gdpPerCapita: item.gdp_per_capita,
       lifeExpectancy: item.life_expectancy,
       humanDevelopmentIndex: item.human_development_index,
+    }));
+  }
+
+  async getSouthAmericaStringencyIndex(
+    options?: SouthAmericaStringencyIndexOptions | undefined
+  ): Promise<CountryStringencyIndex[]> {
+    const urlSearchParams = new URLSearchParams();
+    if (options?.startDate) {
+      urlSearchParams.set("start", options.startDate);
+    }
+    if (options?.endDate) {
+      urlSearchParams.set("end", options.endDate);
+    }
+    const queryString = urlSearchParams.toString();
+
+    const response = await this.client.get<
+      { iso_code: string; stringency_indexes: number[]; dates: string[] }[]
+    >(`/south-america-stringency-index?${queryString}`);
+
+    return response.data.map((item) => ({
+      isoCode: item.iso_code,
+      stringencyIndexes: item.stringency_indexes,
+      dates: item.dates.map((date) => new Date(date)),
     }));
   }
 }
