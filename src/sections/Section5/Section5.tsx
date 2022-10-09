@@ -4,8 +4,11 @@ import { Typography, Stack, CircularProgress } from "@mui/material";
 import { ApexOptions } from "apexcharts";
 import { useRepo } from "../../providers/context/covid.repository.contex";
 import { getSection5ChartData } from "./apexOptions";
+import { Select } from "../../components/Select";
+import { COVID_YEARS } from "./options";
 
 export default function Section5() {
+  const [currentYear, setCurrentYear] = useState("2020");
   const [chartState, setChartState] = useState<
     | {
         options: ApexOptions;
@@ -19,10 +22,13 @@ export default function Section5() {
   const getData = useCallback(async () => {
     console.log("getData");
     setChartState(undefined);
-    const data = await repository.getSouthAmericaStringencyIndex();
+    const data = await repository.getSouthAmericaStringencyIndex({
+      startDate: `${currentYear}-01-01`,
+      endDate: `${currentYear}-12-31`,
+    });
     const optionSeries = getSection5ChartData(data, "Latin America stringency indexes");
     setChartState(optionSeries);
-  }, [repository]);
+  }, [currentYear, repository]);
 
   useEffect(() => {
     getData();
@@ -68,6 +74,20 @@ export default function Section5() {
         ) : (
           <CircularProgress sx={{ margin: "auto" }} />
         )}
+      </Stack>
+      <Stack
+        direction="row"
+        gap={5}
+        sx={{ justifyContent: { xs: "center", sm: "flex-start" } }}
+        flexWrap="wrap"
+      >
+        <Select
+          name="year"
+          label="Year"
+          items={COVID_YEARS}
+          value={currentYear}
+          onChange={(e) => setCurrentYear(e.target.value)}
+        />
       </Stack>
     </Stack>
   );

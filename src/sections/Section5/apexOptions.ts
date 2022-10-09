@@ -7,13 +7,26 @@ import {
 } from "../../utils/commonApexOptions";
 import { addDays, zipTwoArrs } from "../../utils/helpers";
 
+const seriesColors = [
+  "#B24747",
+  "#B28847",
+  "#9DB247",
+  "#5DB247",
+  "#47B272",
+  "#47B2B2",
+  "#4772B2",
+  "#5D47B2",
+  "#9D47B2",
+  "#B24788",
+];
+
 export const getSection5ChartData = (
   countryStringencyIndexes: CountryStringencyIndex[],
   title: string
 ) => {
   let minDateAsUnixTimeStamp: number | undefined;
 
-  const series = countryStringencyIndexes.map((country) => {
+  const series = countryStringencyIndexes.map((country, index) => {
     const { isoCode, stringencyIndexes, dates } = country;
     const datesAsUnixTimeStamp = dates.map((date) => date.getTime());
     // the response from the API is sorted by date, so we can use the first element
@@ -30,6 +43,7 @@ export const getSection5ChartData = (
     return {
       name: isoCode,
       data: indexesDatePairs,
+      color: seriesColors[index % seriesColors.length],
     };
   });
 
