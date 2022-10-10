@@ -49,7 +49,7 @@ export default function Section5() {
             p: 1,
           }}
         >
-          Contingency measures in Latin America
+          5. How Latin American countries handle contingency measures?
         </Typography>
         <Typography
           variant="body1"

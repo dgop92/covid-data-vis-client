@@ -54,7 +54,7 @@ export default function Section3() {
             p: 1,
           }}
         >
-          Top 5 countries with fewer deaths
+          4. What are the top 5 countries with fewer deaths?
         </Typography>
         <Typography
           variant="body1"

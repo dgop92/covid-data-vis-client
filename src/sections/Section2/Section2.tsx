@@ -48,7 +48,7 @@ export default function Section2() {
             p: 1,
           }}
         >
-          Is there a positive correlation between population and the number of cases
+          2. Is there a positive correlation between population and the number of cases
           during 2020?
         </Typography>
         <Typography

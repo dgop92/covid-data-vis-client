@@ -53,7 +53,7 @@ export default function Section3() {
             p: 1,
           }}
         >
-          Top 5 countries with more deaths
+          3. What are the top 5 countries with more deaths?
         </Typography>
         <Typography
           variant="body1"
