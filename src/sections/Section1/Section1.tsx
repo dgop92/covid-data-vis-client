@@ -68,11 +68,11 @@ export default function Section1() {
             p: 1,
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit illum totam
-          numquam. Tempore iusto excepturi deleniti a dolore repudiandae illo nesciunt,
-          aperiam dolorum cupiditate corrupti accusamus dignissimos, nihil ipsum ab odio
-          similique explicabo? Quo quaerat error eum vitae repudiandae, sequi hic? Iure
-          autem reiciendis officia molestias excepturi rem natus quidem?
+          We expect a positive correlation between the number of cases and deaths. This
+          assumption is based on the mortality of this disease. Does this correlation
+          hold in almost all countries?. We observe that in a lot of countries the
+          relationship between the two variables is strong but is not applicable in all
+          countries
         </Typography>
       </Stack>
       <Stack my={4} display="flex" height={700} width="100%">

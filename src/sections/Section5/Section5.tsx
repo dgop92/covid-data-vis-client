@@ -2,12 +2,14 @@ import ReactApexChart from "react-apexcharts";
 import { useEffect, useState, useCallback } from "react";
 import { Typography, Stack, CircularProgress } from "@mui/material";
 import { ApexOptions } from "apexcharts";
+import { useTrackVisibility } from "react-intersection-observer-hook";
 import { useRepo } from "../../providers/context/covid.repository.contex";
 import { getSection5ChartData } from "./apexOptions";
 import { Select } from "../../components/Select";
 import { COVID_YEARS } from "./options";
 
 export default function Section5() {
+  const [ref, { wasEverVisible }] = useTrackVisibility();
   const [currentYear, setCurrentYear] = useState("2020");
   const [chartState, setChartState] = useState<
     | {
@@ -20,15 +22,20 @@ export default function Section5() {
   const { repository } = useRepo();
 
   const getData = useCallback(async () => {
-    console.log("getData");
-    setChartState(undefined);
-    const data = await repository.getSouthAmericaStringencyIndex({
-      startDate: `${currentYear}-01-01`,
-      endDate: `${currentYear}-12-31`,
-    });
-    const optionSeries = getSection5ChartData(data, "Latin America stringency indexes");
-    setChartState(optionSeries);
-  }, [currentYear, repository]);
+    if (wasEverVisible) {
+      console.log("getData");
+      setChartState(undefined);
+      const data = await repository.getSouthAmericaStringencyIndex({
+        startDate: `${currentYear}-01-01`,
+        endDate: `${currentYear}-12-31`,
+      });
+      const optionSeries = getSection5ChartData(
+        data,
+        "Latin America stringency indexes"
+      );
+      setChartState(optionSeries);
+    }
+  }, [currentYear, repository, wasEverVisible]);
 
   useEffect(() => {
     getData();
@@ -40,6 +47,7 @@ export default function Section5() {
       sx={{
         display: "flex",
       }}
+      ref={ref}
     >
       <Stack>
         <Typography
@@ -57,11 +65,31 @@ export default function Section5() {
             p: 1,
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit illum totam
-          numquam. Tempore iusto excepturi deleniti a dolore repudiandae illo nesciunt,
-          aperiam dolorum cupiditate corrupti accusamus dignissimos, nihil ipsum ab odio
-          similique explicabo? Quo quaerat error eum vitae repudiandae, sequi hic? Iure
-          autem reiciendis officia molestias excepturi rem natus quidem?
+          In 2020 Argentina was the first one to implement contingency measures to
+          control covid in the other hand Uruguay was the one with the lowest
+          contingency measures. The next year the status changed, and Venezuela was the
+          country with the strictest measures and Bolivia with the lowest. In general,
+          Latin American countries have different contingency measures according to the
+          cases of COVID.
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            p: 1,
+          }}
+        >
+          The stringency index is a composite measure based on nine response indicators
+          including school closures, workplace closures, and travel bans, rescaled to a
+          value from 0 to 100 (100 = strictest).
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            p: 1,
+          }}
+        >
+          Note: Hover over the legend of a country to highlight the series. Click it to
+          disable/enable the series in the chart
         </Typography>
       </Stack>
       <Stack my={4} display="flex" height={700} width="100%">

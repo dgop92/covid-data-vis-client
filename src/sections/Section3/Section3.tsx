@@ -55,18 +55,7 @@ export default function Section3() {
         >
           3. What are the top 5 countries with more deaths?
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            p: 1,
-          }}
-        >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit illum totam
-          numquam. Tempore iusto excepturi deleniti a dolore repudiandae illo nesciunt,
-          aperiam dolorum cupiditate corrupti accusamus dignissimos, nihil ipsum ab odio
-          similique explicabo? Quo quaerat error eum vitae repudiandae, sequi hic? Iure
-          autem reiciendis officia molestias excepturi rem natus quidem?
-        </Typography>
+
         <Stack
           sx={{ margin: "2rem auto" }}
           display="flex"

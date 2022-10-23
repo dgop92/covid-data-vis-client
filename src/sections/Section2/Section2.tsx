@@ -57,11 +57,11 @@ export default function Section2() {
             p: 1,
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit illum totam
-          numquam. Tempore iusto excepturi deleniti a dolore repudiandae illo nesciunt,
-          aperiam dolorum cupiditate corrupti accusamus dignissimos, nihil ipsum ab odio
-          similique explicabo? Quo quaerat error eum vitae repudiandae, sequi hic? Iure
-          autem reiciendis officia molestias excepturi rem natus quidem?
+          Countries that have a higher population are supposed to have higher COVID
+          cases. This is something trivial, more people mean more probability of getting
+          infected. In the scatterplot, we observe that there is no strong relationship
+          between the population and the number of cases because some countries with
+          lower populations have more cases than some countries with higher populations.
         </Typography>
         <Stack
           sx={{ margin: "2rem auto" }}
