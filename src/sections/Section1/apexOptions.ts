@@ -3,6 +3,7 @@ import { CovidBasicSerie } from "../../services/repository/covid.repository.defi
 import {
   commonChartOptions,
   commonThemeOptions,
+  commonTitleAxisStyle,
   commonTitleOptions,
 } from "../../utils/commonApexOptions";
 import { addDays, zipTwoArrs } from "../../utils/helpers";
@@ -11,6 +12,7 @@ const getChartOptions = (
   chartId: string,
   chartGroup: string,
   yMinWidth: number,
+  yAxisTitle: string,
   minDateAsUnixTimeStamp: number | undefined,
   maxDateAsUnixTimeStamp: number | undefined,
   title?: string,
@@ -80,6 +82,11 @@ const getChartOptions = (
     labels: {
       minWidth: yMinWidth,
     },
+    title: {
+      text: yAxisTitle,
+      rotate: -90,
+      style: commonTitleAxisStyle,
+    },
   },
   theme: {
     ...commonThemeOptions,
@@ -122,6 +129,7 @@ export const getSection1ChartData = (
     "positive-cases",
     "deaths-cases-chart",
     40,
+    "Positive cases",
     minDateAsUnixTimeStamp,
     maxDateAsUnixTimeStamp,
     title
@@ -130,6 +138,7 @@ export const getSection1ChartData = (
     "deaths",
     "deaths-cases-chart",
     40,
+    "Deaths",
     minDateAsUnixTimeStamp,
     maxDateAsUnixTimeStamp,
     undefined,

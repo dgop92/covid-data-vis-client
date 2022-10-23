@@ -68,7 +68,7 @@ export default function Section2() {
           display="flex"
           height={400}
           width="100%"
-          maxWidth={1200}
+          maxWidth={1300}
         >
           {chartState ? (
             <ReactApexChart

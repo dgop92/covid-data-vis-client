@@ -19,3 +19,10 @@ export const commonTitleOptions: ApexOptions["title"] = {
 export const commonThemeOptions: ApexOptions["theme"] = {
   mode: "dark",
 };
+
+export const commonTitleAxisStyle = {
+  fontSize: "14px",
+  fontFamily: '"Quicksand", "Helvetica", "Arial", sans-serif',
+  color: "#fff",
+  fontWeight: 400,
+};

@@ -3,6 +3,7 @@ import { CountryBasicInfo } from "../../services/repository/covid.repository.def
 import {
   commonChartOptions,
   commonThemeOptions,
+  commonTitleAxisStyle,
   commonTitleOptions,
 } from "../../utils/commonApexOptions";
 
@@ -66,6 +67,18 @@ export const getSection2ChartData = (
       labels: {
         formatter: (value: string) =>
           Intl.NumberFormat("en", { notation: "compact" }).format(Number(value)),
+      },
+      title: {
+        text: "Population",
+        offsetY: 10,
+        style: commonTitleAxisStyle,
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Total Cases",
+        rotate: -90,
+        style: commonTitleAxisStyle,
       },
     },
     tooltip: {

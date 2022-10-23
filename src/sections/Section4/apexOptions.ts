@@ -1,6 +1,10 @@
 import { ApexOptions } from "apexcharts";
 import { CountryBasicInfo } from "../../services/repository/covid.repository.definition";
-import { commonChartOptions, commonThemeOptions } from "../../utils/commonApexOptions";
+import {
+  commonChartOptions,
+  commonThemeOptions,
+  commonTitleAxisStyle,
+} from "../../utils/commonApexOptions";
 import { getCountryNameByIsoCode } from "../../utils/countries";
 
 export const getSection4ChartData = (
@@ -52,6 +56,13 @@ export const getSection4ChartData = (
         right: 20,
         bottom: 40,
         left: 20,
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Deaths",
+        rotate: -90,
+        style: commonTitleAxisStyle,
       },
     },
     theme: {

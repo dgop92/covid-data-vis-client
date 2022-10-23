@@ -3,6 +3,7 @@ import { CountryStringencyIndex } from "../../services/repository/covid.reposito
 import {
   commonChartOptions,
   commonThemeOptions,
+  commonTitleAxisStyle,
   commonTitleOptions,
 } from "../../utils/commonApexOptions";
 import { addDays, zipTwoArrs } from "../../utils/helpers";
@@ -108,6 +109,13 @@ export const getSection5ChartData = (
       max: maxDateAsUnixTimeStamp,
       labels: {
         format: "dd/MM/yy",
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Stringency index",
+        rotate: -90,
+        style: commonTitleAxisStyle,
       },
     },
     theme: {
